@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { caseData } from "../../../lib/case-data";
 import SolutionForm from "../../../components/SolutionForm";
 import SkeletonCard from "../../../components/SkeletonCard";
-import Modal from "../../../components/Modal"; // Importa o nosso modal reutilizável
-import { ICaseData, IEvidence, IInterrogation, ISuspect } from "../../../types";
+import Modal from "../../../components/Modal";
+import { IEvidence, IInterrogation, ISuspect } from "../../../types";
+import logo from "../../../public/Enigmo.png";
 
 type Tab = 'briefing' | 'dossiers' | 'evidence' | 'interrogations' | 'acusacao';
 
@@ -194,6 +195,9 @@ export default function GamePage() {
 
   return (
     <main className="min-h-screen text-white p-4 sm:p-8">
+      <div className="absolute top-0 right-0 m-4">
+        <Image src={logo} alt="Logo Enigmo" width={50} height={50} style={{ borderRadius: "50%" , filter: "brightness(0) invert(1)"}}/>
+      </div>
       <h1 className="text-4xl font-bold text-center mb-2" style={{ color: 'var(--main-title)' }}>{pageState.title}</h1>
       <hr className="my-6" style={{ borderColor: 'var(--details)' }}/>
       
