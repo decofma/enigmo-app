@@ -9,19 +9,17 @@ export default function AuthForm() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
 
-    const data = await res.json();
-
     if (res.ok) {
-      localStorage.setItem("session", "true");
       router.push("/dashboard");
+      router.refresh(); 
     } else {
+      const data = await res.json();
       alert(data.error || "Erro ao logar");
     }
   };
