@@ -2,77 +2,81 @@
 
 @import "tailwindcss";
 
+/* MUDANÇA: As variáveis do tema escuro agora são as padrão, 
+  e o bloco @media foi removido.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-gradient: radial-gradient(
+    circle,
+    #1d1b1a,
+    #1a1715,
+    #171210,
+    #140b0a,
+    #110303
+  );
+  --main-background: #1d1b1a;     /* noir profundo - Fundo principal */
+  --secondary-background: #3c3c3c; /* cinza ambar - Fundos secundários e containers*/
+  --main-text: #eae3d2;           /* marfim gasto - Texto principal */
+  --main-title: #6b2e2e;          /* bordo antigo - Títulos, botões.. */
+  --main-hover: #8a3a3a;          /* bordo intenso - Hover principal */
+  --dark-hover: #591e1e;          /* bordo profundo - Hover escuro */
+  --details: #c2b280;             /* ouro envelhecido - Linhas divisórias, detalhes..*/
+  
+  /* Variáveis do tema claro que não serão mais usadas, mas podemos manter aqui caso mude de ideia */
+  --background-light: #ffffff;
+  --foreground-light: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-gradient: radial-gradient(
-      circle,
-      #1d1b1a,
-      #1a1715,
-      #171210,
-      #140b0a,
-      #110303
-    );
-    --main-background: #1d1b1a; /* noir profundo - Fundo principal */
-    --secondary-background: #3c3c3c; /* cinza ambar - Fundos secundários e containers*/
-    --main-text: #eae3d2; /* marfim gasto - Texto principal */
-    --main-title: #6b2e2e; /* bordo antigo - Títulos, botões.. */
-    --main-hover: #8a3a3a; /* bordo intenso - Hover principal */
-    --dark-hover: #591e1e; /* bordo profundo - Hover escuro */
-    --details: #c2b280; /* ouro envelhecido - Linhas divisórias, detalhes..*/
-  }
-}
+/* O bloco @media (prefers-color-scheme: dark) foi completamente removido. */
 
 body {
   background: var(--background-gradient);
   color: var(--main-text);
   font-family: Arial, Helvetica, sans-serif;
+}
 
-  button {
-    background: var(--main-title);
-    color: var(--main-text);
-    border-color: var(--main-title);
-    transition-property: background, color, border-color;
-    transition-duration: 0.3s;
-    cursor: pointer;
-  }
+button {
+  background: var(--main-title);
+  color: var(--main-text);
+  border-color: var(--main-title);
+  transition-property: background, color, border-color;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
 
-  button:hover {
-    background: var(--main-hover);
-    color: var(--background);
-    border-color: var(--background);
-  }
+button:hover {
+  background: var(--main-hover);
+  /* Use uma variável de cor de texto para o hover que funcione bem com o fundo vermelho */
+  color: var(--main-text); 
+  border-color: var(--main-hover);
+}
 
-  form {
-    background: var(--main-background);
-    color: var(--main-text);
-    border-color: var(--main-title);
-    padding: 2rem;
-    border-radius: 0.5rem;
-  }
+form {
+  background: var(--main-background);
+  color: var(--main-text);
+  border-color: var(--main-title);
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
 
-  input {
-    background: var(--secondary-background);
-    color: var(--main-text);
-  }
+input {
+  background: var(--secondary-background);
+  color: var(--main-text);
+}
 
-  .card {
-    background-color: var(--secondary-background);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-  }
+.card {
+  background-color: var(--secondary-background);
+  /* Removido o padding original para a imagem preencher o topo */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  overflow: hidden; /* Garante que a imagem arredondada não vaze para fora */
+}
 
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 8px 10px -6px rgb(0 0 0 / 0.1);
-    background-color: var(--main-hover);
-  }
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* O hover no card não precisa mais mudar a cor, pois o botão fará isso */
 }
