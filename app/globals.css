@@ -51,6 +51,8 @@ body {
     background: var(--main-background);
     color: var(--main-text);
     border-color: var(--main-title);
+    padding: 2rem;
+    border-radius: 0.5rem;
   }
 
   input {

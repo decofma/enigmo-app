@@ -1,10 +1,12 @@
 // components/SolutionForm.tsx
 "use client";
 import { useState } from "react";
-import Modal from "./Modal"; 
+import Modal from "./Modal";
+import Image from 'next/image'; 
+
 type Suspect = {
   id: string;
-  name:string;
+  name: string;
 };
 
 type Props = {
@@ -19,16 +21,15 @@ type ResultState = {
 } | null;
 
 export default function SolutionForm({ gameId, suspects }: Props) {
-  const [selectedCulprit, setSelectedCulprit] = useState("");
+  const [selectedCulprit, setSelectedCulprit] = useState(""); 
   const [isLoading, setIsLoading] = useState(false);
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [result, setResult] = useState<ResultState>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCulprit) {
-      alert("Você deve selecionar um suspeito!");
+      alert("Você deve selecionar um suspeito para acusar!");
       return;
     }
     setIsLoading(true);
@@ -60,30 +61,41 @@ export default function SolutionForm({ gameId, suspects }: Props) {
 
   return (
     <>
-      <section className="max-w-2xl mx-auto p-6 rounded-lg text-center" style={{backgroundColor: 'var(--main-background)'}}>
-        <h2 className="text-3xl font-bold mb-4">A Solução do Caso</h2>
-        <p className="mb-6">Após analisar todas as provas, quem você acusa de ser o assassino de Darlene Montês?</p>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
-          <select
-            value={selectedCulprit}
-            onChange={(e) => setSelectedCulprit(e.target.value)}
-            className="w-full max-w-xs p-3 rounded"
-            style={{backgroundColor: 'var(--secondary-background)', color: 'var(--main-text)'}}
-            required
-          >
-            <option value="" disabled>Selecione o culpado...</option>
+      <section className="max-w-4xl mx-auto p-6 rounded-lg text-center ">
+        <h2 className="text-3xl font-bold mb-4" style={{color: 'var(--main-title)'}}>Faça sua Acusação</h2>
+        <p className="mb-8" style={{color: 'var(--details)'}}>Selecione o suspeito que você acredita ser o responsável pelo crime.</p>
+        
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-8" style={{ backgroundColor: 'var(--secondary-background)' }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 w-full p-6" style={{ border: '1px solid var(--details)', borderRadius: '10px'}}>
             {suspects.map((suspect) => (
-              <option key={suspect.id} value={suspect.id}>
-                {suspect.name}
-              </option>
+              <button
+                type="button" 
+                key={suspect.id}
+                onClick={() => setSelectedCulprit(suspect.id)}
+                className={`p-2 rounded-lg transition-all duration-200 flex flex-col items-center gap-2 ${selectedCulprit === suspect.id ? 'ring-2 opacity-100' : 'ring-1 ring-transparent opacity-70 hover:opacity-100'}`}
+                style={{
+                  backgroundColor: 'var(--secondary-background)',
+                  borderColor: 'var(--main-hover)',
+                }}
+              >
+                <Image
+                  src={`/suspeitos/suspeito-${suspect.id}.png`}
+                  alt={`Foto de ${suspect.name}`}
+                  width={100}
+                  height={100}
+                  className="rounded-full object-cover"
+                />
+                <span className="font-semibold text-sm">{suspect.name}</span>
+              </button>
             ))}
-          </select>
+          </div>
+
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full max-w-xs p-3 font-semibold rounded"
+            disabled={isLoading || !selectedCulprit} 
+            className="w-full max-w-xs p-3 font-semibold rounded disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Analisando..." : "Acusar"}
+            {isLoading ? "Analisando..." : "Confirmar Acusação"}
           </button>
         </form>
       </section>
